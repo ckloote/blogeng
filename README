@@ -1,6 +1,7 @@
-A simple blogging engine done as a project to learn Python and web.py
+A simple blogging engine done as a project to learn Python web development.
 
-Requires:
-	MySQL
-
-
+Using:
+	SQLite
+	web.py
+	Apache
+	mod_wsgi
