@@ -1,16 +1,10 @@
 $def with (blogs)
-<html>
-<head><title>CWK Simple Blogging Engine</title></head>
+$var title: CWK's Blog Engine
+<h1>Blogs</h1>
 
-<body>
-  <h1>Blogs</h1>
-
-  <ul>
-    $for blog in blogs:
-    <li>
-      <a href="/blog/$blog.userid">$blog.name</a>
-    </li>
-  </ul>
-</body>
-
-</html>
+<ul>
+  $for blog in blogs:
+  <li>
+    <a href="/blog/$blog.userid">$blog.name</a>
+  </li>
+</ul>

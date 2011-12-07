@@ -13,7 +13,7 @@ urls = (
 )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
-render = web.template.render(rootdir + 'templates/')
+render = web.template.render(rootdir + 'templates/', base='layout')
 
 class index:
     def GET(self):

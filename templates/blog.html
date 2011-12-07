@@ -1,14 +1,8 @@
 $def with (blog, posts)
-<html>
-<head><title>$blog.name</title></head>
+$var title: $blog.name
+<h1>$blog.name</h1>
 
-<body>
-  <h1>$blog.name</h1>
-
-  $for post in posts:
-    <p>$post.date</p>
-    <p>$post.title</p>
-    <p>$post.body</p>
-</body>
-
-</html>
+$for post in posts:
+  <p>$post.date</p>
+  <p>$post.title</p>
+  <p>$post.body</p>
