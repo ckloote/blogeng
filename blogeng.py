@@ -10,6 +10,9 @@ def get_blogs():
 def get_blog(userid):
     return db.select('blog', where='userid=$userid', vars=locals())[0]
 
+def new_blog(userid, password, name):
+    db.insert('blog', userid=userid, password=password, name=name)
+
 def get_posts(id):
     try:
         return db.select('post', where='ID=$id', vars=locals())
