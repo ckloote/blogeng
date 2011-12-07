@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.17, for Linux (i686)
+-- MySQL dump 10.13  Distrib 5.5.18, for Linux (i686)
 --
 -- Host: localhost    Database: blogeng
 -- ------------------------------------------------------
--- Server version	5.5.17-log
+-- Server version	5.5.18-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `blog`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `blog` (
-  `ID` int(11) NOT NULL DEFAULT '0',
-  `short_name` varchar(15) DEFAULT NULL,
-  `long_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `ID` int(11) DEFAULT NULL,
+  `userid` varchar(15) DEFAULT NULL,
+  `password` varchar(15) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,31 +36,8 @@ CREATE TABLE `blog` (
 
 LOCK TABLES `blog` WRITE;
 /*!40000 ALTER TABLE `blog` DISABLE KEYS */;
+INSERT INTO `blog` VALUES (NULL,'cwk',NULL,'my blog');
 /*!40000 ALTER TABLE `blog` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `blog_user`
---
-
-DROP TABLE IF EXISTS `blog_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `blog_user` (
-  `ID` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) DEFAULT NULL,
-  `blog_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `blog_user`
---
-
-LOCK TABLES `blog_user` WRITE;
-/*!40000 ALTER TABLE `blog_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `blog_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -74,7 +51,6 @@ CREATE TABLE `post` (
   `ID` int(11) NOT NULL DEFAULT '0',
   `date` datetime DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `author` int(11) DEFAULT NULL,
   `blog` int(11) DEFAULT NULL,
   `body` longtext,
   PRIMARY KEY (`ID`)
@@ -87,33 +63,8 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES (0,NULL,'test',0,'this is my first post');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `ID` int(11) NOT NULL DEFAULT '0',
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -125,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-23 18:19:03
+-- Dump completed on 2011-12-06 21:25:53

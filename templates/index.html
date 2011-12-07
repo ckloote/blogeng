@@ -1,12 +1,16 @@
-$def with (name)
+$def with (blogs)
 <html>
-<head><title>Hello, world!</title></head>
+<head><title>CWK Simple Blogging Engine</title></head>
 
 <body>
-  $if name:
-     <p>I just wanted to say <em>hello</em> to $name.</p>
-  $else:
-     <p><em>Hello</em>, world!</p>
+  <h1>Blogs</h1>
+
+  <ul>
+    $for blog in blogs:
+    <li>
+      <a href="/blog/$blog.userid">$blog.name</a>
+    </li>
+  </ul>
 </body>
 
 </html>
