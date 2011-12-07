@@ -8,7 +8,8 @@ from blogeng import *
 urls = (
     '/', 'index',
     '/blog/(.*)', 'blog',
-    '/register', 'register'
+    '/register', 'register',
+    '/post/(.*)', 'post'
 )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
@@ -49,6 +50,30 @@ class register:
             return render.new(form)
         new_blog(form.d.userid, form.d.password, form.d.name)
         raise web.seeother('/')
+
+class post:
+    form = web.form.Form(
+        web.form.Textbox('title', web.form.notnull,
+                         size=32,
+                         description = "Post Title:"),
+        web.form.Textarea('body', web.form.notnull,
+                          rows=30, cols=80,
+                          description = "Post Body:"),
+        web.form.Button("Post Entry")
+    )
+
+    def GET(self, userid):
+        form = self.form()
+        return render.post(form)
+
+    def POST(self, userid):
+        blog = get_blog(userid)
+        form = self.form()
+        if not form.validates():
+            return render.post(form)
+        new_post(blog.ID, form.d.title, form.d.body)
+        url = '/blog/' + userid
+        raise web.seeother(url)
 
 app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()

@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 
-import web
+import web, datetime
 
 db = web.database(dbn='mysql', db='blogeng', user='blogeng', pw='bl0g3ng')
 
@@ -15,7 +15,10 @@ def new_blog(userid, password, name):
 
 def get_posts(id):
     try:
-        return db.select('post', where='ID=$id', vars=locals())
+        return db.select('post', where='blog=$id', vars=locals())
     except IndexError:
         return None
 
+def new_post(blog, title, body):
+    db.insert('post', date=datetime.datetime.utcnow(),
+              title=title, blog=blog, body=body)
