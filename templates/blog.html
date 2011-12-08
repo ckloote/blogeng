@@ -1,9 +1,0 @@
-$def with (blog, posts)
-$var title: $blog.name
-<h1>$blog.name</h1>
-<p><a href="/post/$blog.userid">Add Post</a></p>
-$for post in posts
-  <p><a href="/entry/$blog.userid/$post.ID">$post.title</a></p>
-  <p>$post.date</p>
-  <p>$post.body</p>
-  <hr>

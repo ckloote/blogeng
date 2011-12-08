@@ -7,10 +7,10 @@ from blogeng import *
 
 urls = (
     '/', 'index',
-    '/blog/(.*)', 'blog',
-    '/register', 'register',
-    '/post/(.*)', 'post',
-    '/entry/(.*)/(\d+)', 'entry'
+    '/post/(\d+)', 'post',
+    '/add', 'add',
+#    '/edit(\d+)', 'edit',
+#    '/delete(\d+)', 'delete'
 )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
@@ -18,47 +18,15 @@ render = web.template.render(rootdir + 'templates/', base='layout')
 
 class index:
     def GET(self):
-        blogs = get_blogs()
-        return render.index(blogs)
-
-class blog:
-    def GET(self,userid):
-        blog = get_blog(userid)
-        posts = get_posts(blog.ID)
-        return render.blog(blog, posts)
-
-class entry:
-    def GET(self,userid,postid):
-        blog = get_blog(userid)
-        post = get_post(blog.ID, postid)
-        return render.entry(post)
-
-class register:
-    form = web.form.Form(
-        web.form.Textbox('userid', web.form.notnull,
-                         size=15,
-                         description = "User ID:"),
-        web.form.Textbox('password', web.form.notnull,
-                         size = 15,
-                         description = "Password:"),
-        web.form.Textbox('name', web.form.notnull,
-                         size=32,
-                         description = "Blog Title:"),
-        web.form.Button('Register')
-    )
-
-    def GET(self):
-        form = self.form()
-        return render.register(form)
-
-    def POST(self):
-        form = self.form()
-        if not form.validates():
-            return render.new(form)
-        new_blog(form.d.userid, form.d.password, form.d.name)
-        raise web.seeother('/')
+        posts = getPosts()
+        return render.index(posts)
 
 class post:
+    def GET(self,postid):
+        post = getPost(postid)
+        return render.post(post)
+
+class add:
     form = web.form.Form(
         web.form.Textbox('title', web.form.notnull,
                          size=32,
@@ -69,18 +37,16 @@ class post:
         web.form.Button("Post Entry")
     )
 
-    def GET(self, userid):
+    def GET(self):
         form = self.form()
-        return render.post(form)
+        return render.add(form)
 
-    def POST(self, userid):
-        blog = get_blog(userid)
+    def POST(self):
         form = self.form()
         if not form.validates():
-            return render.post(form)
-        new_post(blog.ID, form.d.title, form.d.body)
-        url = '/blog/' + userid
-        raise web.seeother(url)
+            return render.add(form)
+        addPost(form.d.title, form.d.body)
+        raise web.seeother('/')
 
 app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
