@@ -14,11 +14,13 @@ def new_blog(userid, password, name):
     db.insert('blog', userid=userid, password=password, name=name)
 
 def get_posts(id):
-    try:
-        return db.select('post', where='blog=$id', vars=locals())
-    except IndexError:
-        return None
+    return db.select('post', where='blog=$id', vars=locals())
+
+def get_post(blogid, postid):
+    return db.select('post', where='blog=$blogid and ID=$postid', 
+                     vars=locals())[0]
 
 def new_post(blog, title, body):
     db.insert('post', date=datetime.datetime.utcnow(),
               title=title, blog=blog, body=body)
+

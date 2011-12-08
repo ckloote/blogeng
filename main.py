@@ -9,7 +9,8 @@ urls = (
     '/', 'index',
     '/blog/(.*)', 'blog',
     '/register', 'register',
-    '/post/(.*)', 'post'
+    '/post/(.*)', 'post',
+    '/entry/(.*)/(\d+)', 'entry'
 )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
@@ -25,6 +26,12 @@ class blog:
         blog = get_blog(userid)
         posts = get_posts(blog.ID)
         return render.blog(blog, posts)
+
+class entry:
+    def GET(self,userid,postid):
+        blog = get_blog(userid)
+        post = get_post(blog.ID, postid)
+        return render.entry(post)
 
 class register:
     form = web.form.Form(
@@ -79,4 +86,3 @@ app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
 if __name__ == "__main__":
     app.run()
-
