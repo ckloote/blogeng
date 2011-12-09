@@ -1,0 +1,11 @@
+$def with (post, form)
+$var title: Edit $post.title
+<h1>Edit $post.title</h1>
+<form action="" method="post">
+$:form.render()
+</form>
+
+<h2>Delete $post.title</h2>
+<form action="/delete/$post.ID" method="post">
+  <input type="submit" value="Delete Post"/>
+</form>

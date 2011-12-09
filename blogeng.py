@@ -13,3 +13,11 @@ def getPost(postid):
 def addPost(title, body):
     db.insert('post', date=datetime.datetime.utcnow(),
               title=title, body=body)
+
+def delPost(postid):
+    db.delete('post', where='ID=$postid', vars=locals())
+
+def editPost(postid, title, body):
+    db.update('post', where='ID=$postid', vars=locals(),
+              title=title, body=body)
+
