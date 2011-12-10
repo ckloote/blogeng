@@ -1,9 +1,14 @@
 #!/usr/bin/python2
 
-import web, os, sys
+import web, os, sys, yaml
 
-sys.path.append("/srv/www/blog/htdocs")
+rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
+sys.path.append(rootdir)
 from blogeng import *
+from config import *
+
+config = config(rootdir)
+render = web.template.render(rootdir + 'templates/', base='layout')
 
 urls = (
     '/', 'index',
@@ -12,16 +17,13 @@ urls = (
     '/delete/(\d+)', 'delete',
     '/edit/(\d+)', 'edit',
     '/addcomment/(\d+)', 'addcomment',
-    '/delcomments/(\d+)', 'delcomments'
+    '/delcomments/(\d+)', 'delcomments',
 )
-
-rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
-render = web.template.render(rootdir + 'templates/', base='layout')
 
 class index:
     def GET(self):
         posts = getPosts()
-        return render.index(posts)
+        return render.index(config.title, config.author, posts)
 
 class post:
     def GET(self,postid):
@@ -106,3 +108,4 @@ app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
 if __name__ == "__main__":
     app.run()
+

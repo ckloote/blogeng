@@ -1,8 +1,13 @@
 #!/usr/bin/python2
 
-import web, datetime
+import web, os, sys, datetime
 
-db = web.database(dbn='mysql', db='blogeng', user='blogeng', pw='bl0g3ng')
+rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
+sys.path.append(rootdir)
+from config import *
+config = config(rootdir)
+
+db = web.database(dbn='mysql', db=config.db, user=config.user, pw=config.pw)
 
 def getPosts():
     return db.select('posts', order='id DESC')

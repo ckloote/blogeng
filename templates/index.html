@@ -1,6 +1,7 @@
-$def with (posts)
-$var title: My Blog
-<h1>My Blog</h1>
+$def with (title, author, posts)
+$var title: $title
+<h1>$title</h1>
+<h3>By: $author</h3>
 <a href="add">Add A Post</a>
 $for post in posts:
    <hr>
