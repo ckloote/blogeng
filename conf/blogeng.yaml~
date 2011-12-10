@@ -1,9 +1,0 @@
-# Blogeng Configuration File
----
-title: Blogeng!
-author: cwk
-
-webroot: /srv/www/blog/htdocs
-db: blogeng
-user: blogeng
-pw: bl0g3ng
