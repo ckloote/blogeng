@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 
-import web, os, sys, yaml, base64
+import web, os, sys, base64
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
 sys.path.append(rootdir)
