@@ -1,9 +1,9 @@
 # Blogeng Configuration File
 ---
-title: Blogeng!
-author: cwk
-authpass: foobar
+title: $TITLE
+author: $NAME
+authpass: $PASSWORD
 
-db: blogeng
-user: blogeng
-pw: bl0g3ng
+db: $DB_NAME
+user: $DB_USER
+pw: $DB_PASS
