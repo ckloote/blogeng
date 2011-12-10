@@ -1,4 +1,4 @@
-$def with (post, form)
+$def with (post, form, comments)
 $var title: Edit $post.title
 <h1>Edit $post.title</h1>
 <form action="" method="post">
@@ -8,4 +8,15 @@ $:form.render()
 <h2>Delete $post.title</h2>
 <form action="/delete/$post.id" method="post">
   <input type="submit" value="Delete Post"/>
+</form>
+
+<h3>Delete Comments</h2>
+<form action="/delcomments/$post.id" method="post">
+  <input type="submit" value="Delete Comments"/>
+  $for comment in comments:
+     <hr>
+     <input type="checkbox" name="ids" value="$comment.id"/>
+     <p>$comment.author</p>
+     <p>$comment.date</p>
+     <p>$comment.body</p>
 </form>

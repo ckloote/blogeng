@@ -15,6 +15,11 @@ def addPost(title, body):
               title=title, body=body)
 
 def delPost(postid):
+    commentids = []
+    comments = getComments(postid)
+    for comment in comments:
+        commentids.append(comment.id)
+    delComments(commentids)
     db.delete('posts', where='id=$postid', vars=locals())
 
 def editPost(postid, title, body):
@@ -29,7 +34,7 @@ def addComment(postid, author, body):
     db.insert('comments', date=datetime.datetime.utcnow(),
               post_id=postid, author=author, body=body)
 
-def delComments(comments):
-    for comment in comments:
-        db.delete('comments', where='id=$comment', vars=locals())
+def delComments(commentids):
+    for commentid in commentids:
+        db.delete('comments', where='id=$commentid', vars=locals())
 

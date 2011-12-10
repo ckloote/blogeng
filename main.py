@@ -12,6 +12,7 @@ urls = (
     '/delete/(\d+)', 'delete',
     '/edit/(\d+)', 'edit',
     '/addcomment/(\d+)', 'addcomment',
+    '/delcomments/(\d+)', 'delcomments'
 )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
@@ -73,6 +74,13 @@ class addcomment:
         url = '/post/' + postid
         raise web.seeother(url)
 
+class delcomments:
+    def POST(self, postid):
+        comments = web.input(ids=[])
+        delComments(comments.ids)
+        url = "/edit/" + postid
+        raise web.seeother(url)
+
 class delete:
     def POST(self,postid):
         delPost(postid)
@@ -81,9 +89,10 @@ class delete:
 class edit:
     def GET(self,postid):
         post = getPost(postid)
+        comments = getComments(postid)
         form = add.form()
         form.fill(post)
-        return render.edit(post, form)
+        return render.edit(post, form, comments)
 
     def POST(self,postid):
         form = add.form()
