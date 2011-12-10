@@ -11,6 +11,7 @@ urls = (
     '/add', 'add',
     '/delete/(\d+)', 'delete',
     '/edit/(\d+)', 'edit',
+    '/addcomment/(\d+)', 'addcomment',
 )
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
@@ -24,7 +25,8 @@ class index:
 class post:
     def GET(self,postid):
         post = getPost(postid)
-        return render.post(post)
+        comments = getComments(postid)
+        return render.post(post, comments)
 
 class add:
     form = web.form.Form(
@@ -47,6 +49,29 @@ class add:
             return render.add(form)
         addPost(form.d.title, form.d.body)
         raise web.seeother('/')
+
+class addcomment:
+    form = web.form.Form(
+        web.form.Textbox('author', web.form.notnull,
+                         size=32,
+                         description = "Name:"),
+        web.form.Textarea('body', web.form.notnull,
+                          rows=15, cols=80,
+                          description = "Comment:"),
+        web.form.Button("Post Comment")
+    )
+
+    def GET(self, postid):
+        form = self.form()
+        return render.addcomment(form)
+
+    def POST(self, postid):
+        form = self.form()
+        if not form.validates():
+            return render.addcomment(form)
+        addComment(postid, form.d.author, form.d.body)
+        url = '/post/' + postid
+        raise web.seeother(url)
 
 class delete:
     def POST(self,postid):

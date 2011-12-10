@@ -21,3 +21,15 @@ def editPost(postid, title, body):
     db.update('posts', where='id=$postid', vars=locals(),
               title=title, body=body)
 
+def getComments(postid):
+    return db.select('comments', where='post_id=$postid', order='id',
+                     vars=locals())
+
+def addComment(postid, author, body):
+    db.insert('comments', date=datetime.datetime.utcnow(),
+              post_id=postid, author=author, body=body)
+
+def delComments(comments):
+    for comment in comments:
+        db.delete('comments', where='id=$comment', vars=locals())
+
