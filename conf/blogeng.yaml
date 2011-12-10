@@ -2,6 +2,7 @@
 ---
 title: Blogeng!
 author: cwk
+authpass: foobar
 
 db: blogeng
 user: blogeng

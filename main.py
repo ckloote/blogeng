@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 
-import web, os, sys, yaml
+import web, os, sys, yaml, base64
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
 sys.path.append(rootdir)
@@ -10,6 +10,17 @@ from config import *
 config = config(rootdir)
 render = web.template.render(rootdir + 'templates/', base='layout')
 
+def checkAuth(auth_header):
+    if auth_header is None:
+        return False
+    else:
+        auth = auth_header.split(" ")[1]
+        user, password = base64.decodestring(auth).split(':')
+        if (user == config.author) and (password == config.authpass):
+            return True
+        else:
+            return False
+
 urls = (
     '/', 'index',
     '/post/(\d+)', 'post',
@@ -18,6 +29,7 @@ urls = (
     '/edit/(\d+)', 'edit',
     '/addcomment/(\d+)', 'addcomment',
     '/delcomments/(\d+)', 'delcomments',
+    '/login', 'login'
 )
 
 class index:
@@ -30,28 +42,6 @@ class post:
         post = getPost(postid)
         comments = getComments(postid)
         return render.post(post, comments)
-
-class add:
-    form = web.form.Form(
-        web.form.Textbox('title', web.form.notnull,
-                         size=32,
-                         description = "Post Title:"),
-        web.form.Textarea('body', web.form.notnull,
-                          rows=30, cols=80,
-                          description = "Post Body:"),
-        web.form.Button("Post Entry")
-    )
-
-    def GET(self):
-        form = self.form()
-        return render.add(form)
-
-    def POST(self):
-        form = self.form()
-        if not form.validates():
-            return render.add(form)
-        addPost(form.d.title, form.d.body)
-        raise web.seeother('/')
 
 class addcomment:
     form = web.form.Form(
@@ -78,32 +68,82 @@ class addcomment:
 
 class delcomments:
     def POST(self, postid):
-        comments = web.input(ids=[])
-        delComments(comments.ids)
-        url = "/edit/" + postid
-        raise web.seeother(url)
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            comments = web.input(ids=[])
+            delComments(comments.ids)
+            url = "/edit/" + postid
+            raise web.seeother(url)
+        else:
+            raise web.seeother('/login')
+
+class add:
+    form = web.form.Form(
+        web.form.Textbox('title', web.form.notnull,
+                         size=32,
+                         description = "Post Title:"),
+        web.form.Textarea('body', web.form.notnull,
+                          rows=30, cols=80,
+                          description = "Post Body:"),
+        web.form.Button("Post Entry")
+    )
+
+    def GET(self):
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            form = self.form()
+            return render.add(form)
+        else:
+            raise web.seeother('/login')
+
+    def POST(self):
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            form = self.form()
+            if not form.validates():
+                return render.add(form)
+            addPost(form.d.title, form.d.body)
+            raise web.seeother('/')
+        else:
+            raise web.seeother('/login')
 
 class delete:
     def POST(self,postid):
-        delPost(postid)
-        raise web.seeother('/')
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            delPost(postid)
+            raise web.seeother('/')
+        else:
+            raise web.seeother('/login')
 
 class edit:
     def GET(self,postid):
-        post = getPost(postid)
-        comments = getComments(postid)
-        form = add.form()
-        form.fill(post)
-        return render.edit(post, form, comments)
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            post = getPost(postid)
+            comments = getComments(postid)
+            form = add.form()
+            form.fill(post)
+            return render.edit(post, form, comments)
+        else:
+            raise web.seeother('/login')
 
     def POST(self,postid):
-        form = add.form()
-        post = getPost(postid)
-        if not form.validates():
-            return render.edit(post, form)
-        editPost(postid, form.d.title, form.d.body)
-        raise web.seeother('/')
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            form = add.form()
+            post = getPost(postid)
+            if not form.validates():
+                return render.edit(post, form)
+            editPost(postid, form.d.title, form.d.body)
+            raise web.seeother('/')
+        else:
+            raise web.seeother('/login')
 
+class login:
+    def GET(self):
+        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
+            raise web.seeother('/')
+        else:
+            realm = "Basic realm=" + config.title
+            web.header('WWW-Authenticate', realm)
+            web.ctx.status = '401 Unauthorized'
+            return
+        
 app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
 if __name__ == "__main__":
