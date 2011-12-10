@@ -1,7 +1,49 @@
 A simple blogging engine done as a project to learn Python web development.
 
-Using:
-	MySQL
-	web.py
+Requires:
 	Apache
 	mod_wsgi
+	MySQL
+	Python
+	python-mysql
+	python-yaml
+	python-webpy
+
+Setup:
+	Installation of the requirements outside scope of this README
+
+	Create Database:
+	       $ mysql -u root -p
+	       Password:
+	       mysql> create database $DB_NAME;
+	       mysql> create user '$DB_USER'@'localhost' identified by '$DB_PASS';
+	       mysql> grant all on $DB_NAME.* to '$DB_USER'@'localhost';
+	       mysql> quit
+	       $ mysql -u root -p $DB_NAME < sql/blogeng.sql
+	       Password:
+
+	Add following to your Apache config:
+	     LoadModule wsgi_module modules/mod_wsgi.so
+
+	     <VirtualHost *:80>
+	         ServerAdmin your_email@somewhere.com
+		 DocumentRoot "/path/to/app"
+		 ServerName www.somewhere.com
+		 ErrorLog "/path/to/logs/error_log"
+		 CustomLog "/path/to/logs/access_log" common
+
+		 WSGIScriptAlias / /path/to/app/main.py
+		 WSGIPassAuthorization On
+		 Alias /static /path/to/app/static
+
+ 		 <Directory /path/to/app/>
+		    Order deny,allow
+ 		    Allow from all
+		 </Directory>
+
+		 AddType text/html .py
+	     </VirtualHost>
+
+	Edit blogeng config file:
+	     $ emacs conf/blogeng.yaml
+	     File is fairly self explanatory
