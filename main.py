@@ -26,6 +26,12 @@ def checkAuth(auth_header):
         else:
             return False
 
+def forceAuth():
+    realm = "Basic realm=" + config.title
+    web.header('WWW-Authenticate', realm)
+    web.ctx.status = '401 Unauthorized'
+    return
+
 urls = (
     '/', 'index',
     '/post/(\d+)', 'post',
@@ -33,8 +39,7 @@ urls = (
     '/delete/(\d+)', 'delete',
     '/edit/(\d+)', 'edit',
     '/addcomment/(\d+)', 'addcomment',
-    '/delcomments/(\d+)', 'delcomments',
-    '/login', 'login'
+    '/delcomments/(\d+)', 'delcomments'
 )
 
 class index:
@@ -79,7 +84,7 @@ class delcomments:
             url = "/edit/" + postid
             raise web.seeother(url)
         else:
-            raise web.seeother('/login')
+            forceAuth()
 
 class add:
     form = web.form.Form(
@@ -97,7 +102,7 @@ class add:
             form = self.form()
             return render.add(form)
         else:
-            raise web.seeother('/login')
+            forceAuth()
 
     def POST(self):
         if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
@@ -107,7 +112,7 @@ class add:
             addPost(form.d.title, form.d.body)
             raise web.seeother('/')
         else:
-            raise web.seeother('/login')
+            forceAuth()
 
 class delete:
     def POST(self,postid):
@@ -115,7 +120,7 @@ class delete:
             delPost(postid)
             raise web.seeother('/')
         else:
-            raise web.seeother('/login')
+            forceAuth()
 
 class edit:
     def GET(self,postid):
@@ -126,7 +131,7 @@ class edit:
             form.fill(post)
             return render.edit(post, form, comments)
         else:
-            raise web.seeother('/login')
+            forceAuth()
 
     def POST(self,postid):
         if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
@@ -137,18 +142,8 @@ class edit:
             editPost(postid, form.d.title, form.d.body)
             raise web.seeother('/')
         else:
-            raise web.seeother('/login')
+            forceAuth()
 
-class login:
-    def GET(self):
-        if (checkAuth(web.ctx.env.get('HTTP_AUTHORIZATION'))) is True:
-            raise web.seeother('/')
-        else:
-            realm = "Basic realm=" + config.title
-            web.header('WWW-Authenticate', realm)
-            web.ctx.status = '401 Unauthorized'
-            return
-        
 app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
 if __name__ == "__main__":
