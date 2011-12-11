@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 
-import web, os, sys, base64
+import web, os, sys, base64, datetime
 
 rootdir = os.path.abspath(os.path.dirname(__file__)) + '/'
 sys.path.append(rootdir)
@@ -8,7 +8,12 @@ from blogeng import *
 from config import *
 
 config = config(rootdir)
-render = web.template.render(rootdir + 'templates/', base='layout')
+
+def adjTZ(date):
+    return date + datetime.timedelta(hours=config.tz)
+
+render = web.template.render(rootdir + 'templates/', base='layout',
+                             globals={'adj': adjTZ})
 
 def checkAuth(auth_header):
     if auth_header is None:

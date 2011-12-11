@@ -9,6 +9,7 @@ class config(object):
         self.__title    = config['title']
         self.__author   = config['author']
         self.__authpass = config['authpass']
+        self.__tz       = config['tz']
         self.__db       = config['db']
         self.__user     = config['user']
         self.__pw       = config['pw']
@@ -22,6 +23,9 @@ class config(object):
     def getAuthpass(self):
         return self.__authpass
 
+    def getTZ(self):
+        return self.__tz
+
     def getDB(self):
         return self.__db
 
@@ -34,6 +38,7 @@ class config(object):
     title    = property(fget = getTitle)
     author   = property(fget = getAuthor)
     authpass = property(fget = getAuthpass) 
+    tz       = property(fget = getTZ)
     db       = property(fget = getDB)
     user     = property(fget = getUser)
     pw       = property(fget = getPW)

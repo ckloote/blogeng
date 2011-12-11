@@ -1,9 +1,16 @@
 # Blogeng Configuration File
 ---
+# blog title
 title: $TITLE
+
+# author username and password for admin section
 author: $NAME
 authpass: $PASSWORD
 
+# Time zone offset from UTC
+tz: 0
+
+# Database name, username, password
 db: $DB_NAME
 user: $DB_USER
 pw: $DB_PASS

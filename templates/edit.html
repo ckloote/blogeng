@@ -23,7 +23,7 @@ $var title: Edit "$post.title"
     <button type="submit" value="Delete Comments">Delete Comments</button>
     $for comment in comments:
       <hr>
-      <h4 class="side">$comment.date</h4>
+      <h4 class="side">$adj(comment.date)</h4>
       <h4>
 	<input type="checkbox" name="ids" value="$comment.id"/>
 	From: $comment.author
