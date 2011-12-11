@@ -1,6 +1,12 @@
+"""
+config.py - Fairly straighforward class for pulling values
+from a YAML config file
+"""
+
 import yaml
 
 class config(object):
+    # Constructor pulls all values from the file
     def __init__(self, rootdir):
         object.__init__(self)
         stream = file(rootdir + 'conf/blogeng.yaml', 'r')
@@ -14,6 +20,7 @@ class config(object):
         self.__user     = config['user']
         self.__pw       = config['pw']
 
+    # Getters for config values
     def getTitle(self):
         return self.__title
 
@@ -35,6 +42,7 @@ class config(object):
     def getPW(self):
         return self.__pw
 
+    # Declare as properties 
     title    = property(fget = getTitle)
     author   = property(fget = getAuthor)
     authpass = property(fget = getAuthpass) 
