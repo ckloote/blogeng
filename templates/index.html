@@ -1,10 +1,14 @@
 $def with (title, author, posts)
 $var title: $title
-<h1>$title</h1>
-<h3>By: $author</h3>
-<a href="add">Add A Post</a>
+<div id="header">
+  <p class="side"><a class="header" href="add">Add A Post</a></p>
+  <h1>$title</h1>
+  <h3>By: $author</h3>
+</div>
+<div id="main">
 $for post in posts:
-   <hr>
    <p><a href="/post/$post.id">$post.title</a></p>
    <p>$post.date</p>
    <p>$post.body</p>
+   <hr />
+</div>

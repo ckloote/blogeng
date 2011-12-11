@@ -1,0 +1,57 @@
+/* Set some defaults */
+body {
+        background-color: #F0E68C;
+        font-family: Helvetica;
+        margin: 0px;
+}
+
+/* Define header */
+#header {
+        background-color: #CD853F;
+        padding: 10px;
+        margin: 10px;
+        height: 125px;
+}
+
+/* Set admin links to side */
+p.side {
+    float: right;
+}
+
+/* slightly different header for forms */
+#formheader {
+        background-color: #CD853F;
+        padding: 10px;
+        margin: 10px;
+        height: 75px;
+	text-align: center;
+}
+
+/* form field background */
+input {
+    background-color: #F0E68C;
+    border: 1px solid #781351
+}
+textarea {
+    background-color: #F0E68C;
+    border: 1px solid #781351
+}
+button {
+    background-color: #FFA20F;
+    border: 2px outset #D7B9C9;
+}
+
+/* define main content area */
+#main {
+        background-color: #CD853F;
+        padding: 15px;
+        margin: 0px 10px 10px 10px;
+}
+
+/* define footer */
+#footer {
+        background-color: #CD853F;
+        text-align: center;
+        padding: 15px;
+        margin: 10px;
+}
