@@ -45,5 +45,6 @@ Setup:
 	     </VirtualHost>
 
 	Edit blogeng config file:
+	     $ cp conf/blogeng.example.yaml conf/blogeng.yaml
 	     $ emacs conf/blogeng.yaml
 	     File is fairly self explanatory
