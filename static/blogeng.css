@@ -5,34 +5,43 @@ body {
         margin: 0px;
 }
 
-/* Define header */
+/* Define headers, footer */
 #header {
         background-color: #CD853F;
+	color: #800000;
         padding: 10px;
         margin: 10px;
         height: 125px;
 }
-
-/* Set admin links to side */
-p.side {
-    float: right;
-}
-
-/* slightly different header for forms */
 #formheader {
         background-color: #CD853F;
+	color: #800000;
         padding: 10px;
         margin: 10px;
         height: 75px;
 	text-align: center;
 }
-
-/* form field background */
-input {
-    background-color: #F0E68C;
-    border: 1px solid #781351
+#footer {
+        background-color: #CD853F;
+        text-align: center;
+        padding: 15px;
+        margin: 10px;
 }
-textarea {
+
+/* content classes */
+.item {
+        background-color: #CD853F;
+        padding: 15px;
+        margin: 0px 10px 10px 10px;
+}
+.side {
+    float: right;
+    color: #800000;
+}
+
+
+/* form element styling */
+input, textarea {
     background-color: #F0E68C;
     border: 1px solid #781351
 }
@@ -40,18 +49,19 @@ button {
     background-color: #FFA20F;
     border: 2px outset #D7B9C9;
 }
-
-/* define main content area */
-#main {
-        background-color: #CD853F;
-        padding: 15px;
-        margin: 0px 10px 10px 10px;
+label {
+    color: #800000;
 }
 
-/* define footer */
-#footer {
-        background-color: #CD853F;
-        text-align: center;
-        padding: 15px;
-        margin: 10px;
+/* link styling */
+a {
+    color: #800000;
+}
+a:hover {
+    color: #FF0000;
+}
+
+/* header text */
+h1, h2, h3, h4 {
+    color: #800000;
 }

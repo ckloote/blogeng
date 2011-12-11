@@ -1,29 +1,33 @@
 $def with (post, form, comments)
-$var title: Edit $post.title
+$var title: Edit "$post.title"
 <div id="formheader">
-  <h1>Edit $post.title</h1>
+  <h1>Edit "$post.title"</h1>
 </div>
 
-<div id="main">
-  <form action="" method="post">
-    $:form.render()
-  </form>
-
-  <h2>Delete $post.title</h2>
+<div class="item">
+  <h3>Delete "$post.title" (and comments) entirely</h3>
   <form action="/delete/$post.id" method="post">
     <button type="submit" value="Delete Post">Delete Post</button>
   </form>
 </div>
 
-<div id="main">
-  <h3>Delete Comments</h2>
+<div class="item">
+  <form action="" method="post">
+    $:form.render()
+  </form>
+</div>
+
+<div class="item">
+  <h3>Check comments to delete:</h2>
   <form action="/delcomments/$post.id" method="post">
     <button type="submit" value="Delete Comments">Delete Comments</button>
     $for comment in comments:
       <hr>
-      <input type="checkbox" name="ids" value="$comment.id"/>
-      <p>$comment.author</p>
-      <p>$comment.date</p>
+      <h4 class="side">$comment.date</h4>
+      <h4>
+	<input type="checkbox" name="ids" value="$comment.id"/>
+	From: $comment.author
+      </h4>
       <p>$comment.body</p>
 </form>
 </div>

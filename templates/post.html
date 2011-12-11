@@ -1,18 +1,20 @@
 $def with (post, comments)
 $var title: $post.title
 <div id="header">
-  <p class="side"><a href="/edit/$post.id">Edit Post</a></p>
+  <p class="side">
+    <button onclick="window.location.href='/edit/$post.id'">Edit Post</button>
+  </p>
   <h1>$post.title</h1>
   <p>$post.date</p>
 </div>
-<div id="main">
+<div class="item">
   <p>$post.body</p>
 </div>
-<div id="main">
-  <p><a href="/addcomment/$post.id">Add a comment</a></p>
+<div class="item">
+  <p><button onclick="window.location.href='/addcomment/$post.id'">Add a comment</button></p>
   $for comment in comments:
      <hr />
-     <p>$comment.author</p>
-     <p>$comment.date</p>
+     <h4 class="side">$comment.date</h4>
+     <h4>From: $comment.author</h4>
      <p>$comment.body</p>
 </div>
