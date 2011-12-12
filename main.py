@@ -175,7 +175,8 @@ class edit:
             if not form.validates():
                 return render.edit(post, form)
             editPost(postid, form.d.title, form.d.body)
-            raise web.seeother('/')
+            url = "/post/" + postid
+            raise web.seeother(url)
         else:
             forceAuth()
 
